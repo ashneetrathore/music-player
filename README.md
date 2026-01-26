@@ -5,12 +5,12 @@ Date: May 2025\
 Developer(s): Ashneet Rathore\
 Based on assignment instructions from Prof. Amir Rahmani
 
-Embedded Music Player is an embedded systems project using an ATMega32 microcontroller. The system integrates a keypad, LCD, and speaker on a breadboard circuit to play predefined songs, display song titles, and respond to real-time user input. Using the keypad, users can start or stop songs, switch between songs, adjust pitch, and change tempo.
+Embedded Music Player is an ATMega32 microcontroller-based system designed to play predefined songs with interactive user controls. The breadboard circuit integrates a speaker for outputting audio, a LCD for displaying song titles, and a keypad for controlling playback, selecting songs, and adjusting pitch and tempo.
 
 View more of my embedded programming projects on GitHub [here](https://github.com/stars/ashneetrathore/lists/systems-programming-software)
 
 ## :brain: FIRMWARE DESIGN
-Run in **Microchip Studio**, the core software logic of the music player focuses on generating singular music notes at the microcontroller level and combining them to play complete songs. A `PlayingNote` struct represents a single note, storing its pitch and duration, and songs are encoded as arrays of these structs. The `play_song()` function iterates through each struct and calls `play_note`, which generates sound by toggling a GPIO output pin to produce a square-wave signal at the desired frequency for the specified duration.
+Run in **Microchip Studio**, the core software logic of the music player focuses on generating singular music notes at the microcontroller level and combining them to play complete songs. A `PlayingNote` struct represents a single note, storing its pitch and duration, and songs are encoded as arrays of these structs. The `play_song()` function iterates through each struct and calls `play_note()`, which generates sound by toggling a GPIO output pin to produce a square-wave signal at the desired frequency for the specified duration.
 
 **Precise timing** is critical for accurate audio generation, so the program defines an `avr_wait_us()` function that provides fine-grained delay control in units of 8 microseconds, This high-resolution delay is necessary to accurately control the high and low periods (`th` and `tl`) of each waveform cycle, ensuring consistent pitch and tempo during playback.
 
