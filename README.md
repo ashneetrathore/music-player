@@ -18,7 +18,7 @@ User input is handled through **polling-based keypad scanning**, allowing the us
 
 ## :open_file_folder: PROJECT FILE STRUCTURE
 ```bash
-EmbeddedMusicPlayer/
+music-player/
 │── main.c                  # Implements main program logic for the music player
 │── avr.h                   # Defines AVR macros and timing utilities
 │── lcd.h                   # Declares LCD control and display functions
