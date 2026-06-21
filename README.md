@@ -2,32 +2,29 @@
 
 ## :open_book: OVERVIEW
 Date: May 2025\
-Developer(s): Ashneet Rathore\
-Based on assignment instructions from Prof. Amir Rahmani
+Developer(s): Ashneet Rathore
 
-Embedded Music Player is an ATMega32 microcontroller-based system designed to play predefined songs with interactive user controls. The breadboard circuit integrates a speaker for outputting audio, a LCD for displaying song titles, and a keypad for controlling playback, selecting songs, and adjusting pitch and tempo.
-
-View more of my embedded programming projects on GitHub [here](https://github.com/stars/ashneetrathore/lists/systems-programming-software)
+Embedded Music Player is an ATMega32 microcontroller-based system that plays predefined songs, composed as frequency-based note sequences. The breadboard circuit integrates a speaker for outputting audio, a LCD for displaying song titles, and a keypad for controlling playback, selecting songs, and adjusting pitch and tempo.
 
 ## :brain: FIRMWARE DESIGN
-Run in **Microchip Studio**, the core software logic of the music player focuses on generating singular music notes at the microcontroller level and combining them to play complete songs. A `PlayingNote` struct represents a single note, storing its pitch and duration, and songs are encoded as arrays of these structs. The `play_song()` function iterates through each struct and calls `play_note()`, which generates sound by toggling a GPIO output pin to produce a square-wave signal at the desired frequency for the specified duration.
+Run in **Microchip Studio**, the firmware generates individual music notes at the microcontroller level and combines them to play complete songs. Notes are encoded as pitch and duration pairs, and songs are represented as arrays of notes. Each note is played by toggling a GPIO output pin to produce a square-wave signal at the desired frequency for the specified duration.
 
-**Precise timing** is critical for accurate audio generation, so the program defines an `avr_wait_us()` function that provides fine-grained delay control in units of 8 microseconds, This high-resolution delay is necessary to accurately control the high and low periods (`th` and `tl`) of each waveform cycle, ensuring consistent pitch and tempo during playback.
+**Precise timing** is critical for accurate audio generation. A high-resolution delay function provides a fine-grianed delay control in units of 8 microseconds, controlling the high and low periods of each waveform cycle to ensure consistent pitch and tempo.
 
-User input is handled through **polling-based keypad scanning**, allowing the user to start or stop playback, select from three pre-encoded songs - *Twinkle Twinkle Little Star*, *Mary Had a Little Lamb*, and *Birthday Song* — and adjust pitch and tempo in real time. The program updates the song title displayed on the LCD accordingly.
+User input is handled through **polling-based keypad scanning**, allowing playback control, song selection - *Twinkle Twinkle Little Star*, *Mary Had a Little Lamb*, and *Birthday Song* - and real-time pitch and tempo adjustment. The LCD updates to display the current song title.
 
 ## :open_file_folder: PROJECT FILE STRUCTURE
 ```bash
 music-player/
-│── main.c                  # Implements main program logic for the music player
-│── avr.h                   # Defines AVR macros and timing utilities
-│── lcd.h                   # Declares LCD control and display functions
-│── lcd.c                   # Implements LCD control and display functions
+│── main.c                  # Main program logic for the music player
+│── avr.h                   # AVR macros and timing utilities
+│── lcd.h                   # LCD control and display function declarations
+│── lcd.c                   # LCD control and display function implementations
 │── assets/               
-│   │── circuit_image.jpg   # Image of finished circuit
+│   │── circuit_image.jpg   # Image of circuit
 │   └── schematic.png       # Schematic of circuit
 │── README.md               # Project documentation
-└── .gitignore              # Excludes files and folders from version control
+└── .gitignore              # Ignored files
 ```
 
 ## :gear: CIRCUIT SET UP GUIDE
@@ -72,11 +69,11 @@ The voltage regulator has three pins: input (Pin 1), ground (Pin 2), and output 
 ### :hourglass: CONNECTING THE 8 MHZ CRYSTAL TO THE MICROCONTROLLER
 1. Connect one leg of a 8 MHz crystal to XTAL2 (Pin 12) on the microcontroller.
 2. Connect the other leg of the crystal to XTAL1 (Pin 13) on the microcontroller.
->[!IMPORTANT]
-> When running the program in Microchip Studio, configure the fuses:
-> 1. In the top navigation bar, go to *Tools* → *Device Programming* → *Fuses* → *LOW_SUT_CKSEL*.
-> 2. Select *Ext.Crystal/Resonator High Freq: Start-up time: 16k CK + 64 ms*.
-> 3. Click *Program*.
+
+### :wrench: CONFIGURING THE FUSES IN MICROCHIP STUDIO
+1. In the top navigation bar, go to *Tools* → *Device Programming* → *Fuses* → *LOW_SUT_CKSEL*.
+2. Select *Ext. Crystal/Resonator High Freq: Start-up time: 16k CK + 64 ms*.
+3. Click *Program*.
 
 ### :1234: CONNECTING THE KEYPAD TO THE MICROCONTROLLER
 1. Connect the 8 keypad pins to PORT C of the microcontroller as shown below:
@@ -93,7 +90,7 @@ The voltage regulator has three pins: input (Pin 1), ground (Pin 2), and output 
     | R3                | PC4 (Pin 26)        | 
 
 ### :framed_picture: CONNECTING THE LCD TO THE MICROCONTROLLER
-The LCD has a total of 16 pins, including source pins that supply power to the display, control pins that manage its operation, and data pins that carry the information displayed.
+The LCD has a total of 16 pins, including source pins that supply power to the display, control pins that manage its operation, and data pins that carry the information displayed. LCD Pins 15 and 16 are unused for this project.
 1. To supply power to the LCD, connect VSS (LCD Pin 1) to the negative rail of the breadboard and VDD (LCD Pin 2) to the positive rail.
 2. Connect one leg of a 1k resistor to VO (LCD Pin 3) and the other leg to the negative rail of the breadboard.
 3. Connect the control pins of the LCD to PORT B of the microcontroller as shown below:
@@ -116,9 +113,6 @@ The LCD has a total of 16 pins, including source pins that supply power to the d
     | DB5 (Pin 12)      | PD5 (Pin 19)        |
     | DB6 (Pin 13)      | PD6 (Pin 20)        |
     | DB7 (Pin 14)      | PD7 (Pin 21)        | 
-
->[!NOTE]
-> LCD Pins 15 and 16 are unused for this project.
 
 ### :loudspeaker: CONNECTING THE SPEAKER TO THE MICROCONTROLLER
 1. Connect the negative terminal of the speaker to the negative rail of the breadboard.
