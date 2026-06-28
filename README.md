@@ -9,7 +9,7 @@ Embedded Music Player is an ATMega32 microcontroller-based system that plays pre
 ## :brain: FIRMWARE DESIGN
 Run in **Microchip Studio**, the firmware generates individual music notes at the microcontroller level and combines them to play complete songs. Notes are encoded as pitch and duration pairs, and songs are represented as arrays of notes. Each note is played by toggling a GPIO output pin to produce a square-wave signal at the desired frequency for the specified duration.
 
-**Precise timing** is critical for accurate audio generation. A high-resolution delay function provides a fine-grained delay control in units of 8 microseconds, controlling the high and low periods of each waveform cycle to ensure consistent pitch and tempo.
+**Precise timing** is critical for accurate audio generation. A high-resolution delay function provides fine-grained control in units of 8 microseconds to ensure consistent pitch and tempo.
 
 User input is handled through **polling-based keypad scanning**, allowing playback control, song selection - *Twinkle Twinkle Little Star*, *Mary Had a Little Lamb*, and *Birthday Song* - and real-time pitch and tempo adjustment. The LCD updates to display the current song title.
 
